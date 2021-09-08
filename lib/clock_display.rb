@@ -8,39 +8,30 @@ class Clock
     @seconds = seconds
   end
 
-  def hours_string
-    if @hours >= 10
-      @hours.to_s
+  def time_to_string(number)
+    if number >= 10
+      number.to_s
     else
-      "0#{@hours}"
-    end
-  end
-
-  def minutes_string
-    if @minutes >= 10
-      @minutes.to_s
-    else
-      "0#{@minutes}"
-    end
-  end
-
-  def seconds_string
-    if @seconds >= 10
-      @seconds.to_s
-    else
-      "0#{@seconds}"
+      "0#{number}"
     end
   end
 
   def print_string
+    hours_string = time_to_string(@hours)
+    minutes_string = time_to_string(@minutes)
+    seconds_string = time_to_string(@seconds)
     "#{hours_string}:#{minutes_string}:#{seconds_string}"
   end
 
+  def time_increment(number, modulo)
+    (number + 1) % modulo
+  end
+
   def increment
-    @seconds = (@seconds + 1) % 60
+    @seconds = time_increment(@seconds, 60)
     return unless @seconds.zero?
 
-    @minutes = (@minutes + 1) % 60
-    @hours = (@hours + 1) % 24 if @minutes.zero?
+    @minutes = time_increment(@minutes, 60)
+    @hours = time_increment(@hours, 24) if @minutes.zero?
   end
 end
